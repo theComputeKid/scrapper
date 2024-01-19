@@ -1,0 +1,88 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema",
+    "$id": "utils/schema.json",
+    "name": "scrapper schema",
+    "description": "Describes C++ functions.",
+    "type": "object",
+    "properties": {
+        "includes": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "linkage-macro": {
+            "type": "string"
+        },
+        "functions": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "combination": {
+                        "type": "string",
+                        "enum": [
+                            "all",
+                            "fixed"
+                        ]
+                    },
+                    "templates": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "types": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "required": [
+                                "name",
+                                "types"
+                            ]
+                        }
+                    },
+                    "parameters": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "name",
+                                "type",
+                                "const",
+                                "pointer"
+                            ]
+                        }
+                    }
+                },
+                "required": [
+                    "name",
+                    "combination",
+                    "templates",
+                    "return"
+                ]
+            }
+        }
+    },
+    "required": [
+        "$schema",
+        "linkage-macro",
+        "functions"
+    ]
+}

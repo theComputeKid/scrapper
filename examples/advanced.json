@@ -1,0 +1,126 @@
+{
+    "$schema": "https://raw.githubusercontent.com/theComputeKid/scrapper/main/utils/schema.json",
+    "includes": [
+        "<stdint.h>"
+    ],
+    "linkage-macro": "MY_ADVANCED_PROJECT",
+    "functions": [
+        {
+            "name": "multiply",
+            "combination": "all",
+            "templates": [
+                {
+                    "name": "T1",
+                    "types": [
+                        "float",
+                        "double"
+                    ]
+                },
+                {
+                    "name": "T2",
+                    "types": [
+                        "int32_t",
+                        "float",
+                        "double"
+                    ]
+                }
+            ],
+            "parameters": [
+                {
+                    "name": "left",
+                    "type": "T1",
+                    "const": true,
+                    "pointer": true
+                },
+                {
+                    "name": "right",
+                    "type": "T2",
+                    "const": true,
+                    "pointer": true
+                },
+                {
+                    "name": "result",
+                    "type": "T1",
+                    "const": false,
+                    "pointer": true
+                }
+            ],
+            "return": {
+                "type": "int",
+                "const": false,
+                "pointer": false
+            }
+        },
+        {
+            "name": "add",
+            "combination": "all",
+            "templates": [
+                {
+                    "name": "T",
+                    "types": [
+                        "float",
+                        "int8_t"
+                    ]
+                }
+            ],
+            "parameters": [
+                {
+                    "name": "left",
+                    "type": "T",
+                    "const": true,
+                    "pointer": false
+                },
+                {
+                    "name": "right",
+                    "type": "T",
+                    "const": true,
+                    "pointer": false
+                }
+            ],
+            "return": {
+                "type": "T",
+                "const": false,
+                "pointer": false
+            }
+        },
+        {
+            "name": "divide",
+            "combination": "fixed",
+            "templates": [
+                {
+                    "name": "T1",
+                    "types": [
+                        "float",
+                        "int8_t"
+                    ]
+                },
+                {
+                    "name": "T2",
+                    "types": [
+                        "double",
+                        "int16_t"
+                    ]
+                }
+            ],
+            "parameters": [
+                {
+                    "name": "left",
+                    "type": "T1",
+                    "const": true,
+                    "pointer": false
+                },
+                {
+                    "name": "right",
+                    "type": "T2",
+                    "const": true,
+                    "pointer": false
+                }
+            ],
+            "return": {
+                "type": "T2",
+                "const": false,
+                "pointer": false
+            }
+        }
+    ]
+}

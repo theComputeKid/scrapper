@@ -1,0 +1,38 @@
+{
+    "$schema": "https://raw.githubusercontent.com/theComputeKid/scrapper/main/utils/schema.json",
+    "linkage-macro": "MY_SIMPLE_PROJECT",
+    "functions": [
+        {
+            "name": "multiply",
+            "combination": "all",
+            "templates": [
+                {
+                    "name": "T",
+                    "types": [
+                        "float",
+                        "double"
+                    ]
+                }
+            ],
+            "parameters": [
+                {
+                    "name": "left",
+                    "type": "T",
+                    "const": true,
+                    "pointer": false
+                },
+                {
+                    "name": "right",
+                    "type": "T",
+                    "const": true,
+                    "pointer": false
+                }
+            ],
+            "return": {
+                "type": "T",
+                "const": false,
+                "pointer": false
+            }
+        }
+    ]
+}

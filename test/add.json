@@ -1,0 +1,48 @@
+{
+	"$schema": "https://raw.githubusercontent.com/theComputeKid/scrapper/main/utils/schema.json",
+	"linkage-macro": "SCRAPPER",
+	"includes": [
+		"<stdint.h>"
+	],
+	"functions": [
+		{
+			"name": "add",
+			"combination": "all",
+			"templates": [
+				{
+					"name": "S",
+					"types": [
+						"uint32_t",
+						"int8_t"
+					]
+				},
+				{
+					"name": "T",
+					"types": [
+						"float",
+						"double"
+					]
+				}
+			],
+			"parameters": [
+				{
+					"name": "left",
+					"type": "S",
+					"const": false,
+					"pointer": false
+				},
+				{
+					"name": "right",
+					"type": "T",
+					"const": false,
+					"pointer": false
+				}
+			],
+			"return": {
+				"type": "T",
+				"const": false,
+				"pointer": false
+			}
+		}
+	]
+}
