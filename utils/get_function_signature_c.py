@@ -13,7 +13,9 @@ def __get_type(arg: dict, templates: str) -> str:
     return t
 
 
-def get_function_signature_c(func: dict, templates: dict) -> str:
+def get_function_signature_c(
+    func: dict, templates: dict, mapping: dict[str, str]
+) -> str:
     """Generates a C function signature.
 
     The configuration is read from a "function" object obtained from the validated config JSON file.
@@ -28,7 +30,9 @@ def get_function_signature_c(func: dict, templates: dict) -> str:
         E.g.: {"T1": "float", "T2": "double"}
     """
     decl = __get_type(func["return"], templates) + " "
-    decl += func["name"] + "_" + utils.get_type_suffix(list(templates.values()))
+    decl += (
+        func["name"] + "_" + utils.get_type_suffix(list(templates.values()), mapping)
+    )
     decl += "("
     for p in func["parameters"]:
         decl += __get_type(p, templates) + " " + p["name"] + ", "

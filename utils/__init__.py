@@ -4,6 +4,5 @@ from .get_template_combinations import get_template_combinations
 from .get_function_signature_c import get_function_signature_c
 from .get_function_signature_cpp import get_function_signature_cpp
 from .get_export_header_cpp_definition import get_export_header_cpp_definition
-from .get_type_suffix import get_type_suffix
 from .get_impl import get_impl
 from .utils import *
