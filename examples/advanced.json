@@ -4,6 +4,10 @@
         "<stdint.h>"
     ],
     "linkage-macro": "MY_ADVANCED_PROJECT",
+    "suffix-mapping": {
+        "float": "fp32",
+        "float _Complex": "cfp32"
+    },
     "functions": [
         {
             "name": "multiply",
@@ -12,8 +16,8 @@
                 {
                     "name": "T1",
                     "types": [
-                        "float",
-                        "double"
+                        "float _Complex",
+                        "double _Complex"
                     ]
                 },
                 {
@@ -47,38 +51,6 @@
             ],
             "return": {
                 "type": "int",
-                "const": false,
-                "pointer": false
-            }
-        },
-        {
-            "name": "add",
-            "combination": "all",
-            "templates": [
-                {
-                    "name": "T",
-                    "types": [
-                        "float",
-                        "int8_t"
-                    ]
-                }
-            ],
-            "parameters": [
-                {
-                    "name": "left",
-                    "type": "T",
-                    "const": true,
-                    "pointer": false
-                },
-                {
-                    "name": "right",
-                    "type": "T",
-                    "const": true,
-                    "pointer": false
-                }
-            ],
-            "return": {
-                "type": "T",
                 "const": false,
                 "pointer": false
             }

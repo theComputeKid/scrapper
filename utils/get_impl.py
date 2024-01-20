@@ -35,13 +35,13 @@ def __get_impl_cpp_call(func: dict) -> str:
     return out
 
 
-def __get_impl_c_definitions(config: dict) -> str:
+def __get_impl_c_definitions(config: dict, mapping: dict[str, str]) -> str:
     out = ""
     for f in config["functions"]:
         type_combos = utils.get_template_combinations(f["templates"], f["combination"])
         for t in type_combos:
             out += __get_link_macro(config["linkage-macro"]) + " "
-            out += utils.get_function_signature_c(f, t) + "{" + os.linesep
+            out += utils.get_function_signature_c(f, t, mapping) + "{" + os.linesep
             out += __get_impl_cpp_call(f)
             out += os.linesep + "}" + os.linesep + os.linesep
         out += os.linesep
@@ -49,8 +49,9 @@ def __get_impl_c_definitions(config: dict) -> str:
 
 
 def get_impl(config: dict) -> str:
+    suffixes = utils.get_type_suffix_list(config)
     out = utils.get_includes(config) + os.linesep + os.linesep
     out += __get_linkage_macro_header(config["linkage-macro"]) + os.linesep + os.linesep
     out += __get_impl_cpp_signatures(config) + os.linesep
-    out += __get_impl_c_definitions(config)
+    out += __get_impl_c_definitions(config, suffixes)
     return out

@@ -192,7 +192,7 @@ T add(T left, T right){
 
 Note:
 - The C++ wrapper function is declared before the inline implementation. This is to help the user have a clean interface to browse the header file, as the implementation of the wrapper should not be their concern.
-- The script provides mapping from the types to the function suffixes (e.g. `float` -> `fp32`).
+- The script provides mapping from the types to the function suffixes (e.g. `float` -> `fp32`). These mapping are located in `utils/suffix_mappings.json` but can be overridden by supplying a `"suffix-mapping"` key in the config JSON (as seen in the `advanced` example).
 - The C++ wrapper function arguments must be compatible with C (so no std::XXX).
 
 The user of the library can then either directly call the C functions or the C++ wrapper function as desired:
@@ -259,6 +259,7 @@ Other examples can be seen in the examples folder. The script can be called by p
 python ./scrapper.py examples/simple.json --output-header out/simple.h --output-impl out/simple.hpp
 python ./scrapper.py examples/advanced.json -oh out/advanced.h -oi out/advanced.hpp
 ```
+
 
 ## Test
 A complete test case can be found in the `test` folder, demonstrating the intended usage of the script in a project. It involves the following steps:
