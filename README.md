@@ -1,6 +1,6 @@
 <div align="center">
 	<h1><strong>scrapper</strong></h1>
-	<p>a script to generate c convenience wrappers for c++ functions</p>
+	<p>exports c++ functions with a c interface</p>
     <img alt="GitHub License" src="https://img.shields.io/github/license/thecomputekid/scrapper?style=for-the-badge&color=blue">
     <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/theComputeKid/scrapper/test.yml?style=for-the-badge">
 	<img alt="Lines of Code" src="https://tokei.rs/b1/github/thecomputekid/scrapper?category=code&style=for-the-badge">
