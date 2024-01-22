@@ -42,35 +42,35 @@ def __get_export_header_macros(config: dict) -> str:
     return out
 
 
-def __get_export_header_c_signatures(config: dict, suffixes: dict[str, str]) -> str:
+def __get_export_header_c_signatures(config: dict) -> str:
     out = ""
     for f in config["functions"]:
         type_combos = utils.get_template_combinations(f["templates"], f["combination"])
         for t in type_combos:
             out += __get_import_macro(config["linkage-macro"]) + " "
-            out += utils.get_function_signature_c(f, t, suffixes) + ";"
+            out += utils.get_function_signature_c(f, t, config["suffix-mapping"]) + ";"
             out += os.linesep
         out += os.linesep
     return out
 
 
-def __get_export_header_cpp_definitions(config: dict, mapping: dict[str, str]) -> str:
+def __get_export_header_cpp_definitions(config: dict) -> str:
     out = "// C++ wrapper impl." + os.linesep
     out += "#ifdef __cplusplus" + os.linesep
     out += "#include <type_traits>" + os.linesep + os.linesep
     for f in config["functions"]:
         out += (
-            utils.get_export_header_cpp_definition(f, mapping) + os.linesep + os.linesep
+            utils.get_export_header_cpp_definition(f, config["suffix-mapping"])
+            + os.linesep
+            + os.linesep
         )
     out += f"#endif"
     return out
 
 
 def get_export_header(config: dict) -> str:
-    utils.validate_schema(config)
-    suffixes = utils.get_type_suffix_list(config)
     out = __get_export_header_macros(config) + os.linesep + os.linesep
     out += __get_export_header_cpp_signatures(config) + os.linesep + os.linesep
-    out += __get_export_header_c_signatures(config, suffixes)
-    out += __get_export_header_cpp_definitions(config, suffixes)
+    out += __get_export_header_c_signatures(config)
+    out += __get_export_header_cpp_definitions(config)
     return out
