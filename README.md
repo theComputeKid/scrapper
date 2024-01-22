@@ -133,7 +133,7 @@ The `"functions"` field is divided into:
 
 The `"templates"` field is divided into:
 - `"name"`: The placeholder type for the template (e.g. `T`) in the C++ function signature.
-- `"types"`: Array of types that are accepted by the template.
+- `"types"`: Array of types that are accepted by the template. These must be C friendly (i.e. no std::XYZ).
 
 
 The JSON is validated as part of the script. An example is:

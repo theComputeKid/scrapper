@@ -3,13 +3,21 @@ import argparse, pathlib, json
 import utils
 
 
-def get_impl(input_json: pathlib.Path) -> str:
+def __extract_JSON(input_json: pathlib.Path) -> dict:
     config = json.loads(input_json.read_text())
+    utils.validate_schema(config)
+    suffixes = utils.get_type_suffix_list(config)
+    config["suffix-mapping"] = suffixes
+    return config
+
+
+def get_impl(input_json: pathlib.Path) -> str:
+    config = __extract_JSON(input_json)
     return utils.get_impl(config)
 
 
 def get_export_header(input_json: pathlib.Path) -> str:
-    config = json.loads(input_json.read_text())
+    config = __extract_JSON(input_json)
     return utils.get_export_header(config)
 
 
