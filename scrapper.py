@@ -19,7 +19,9 @@ def __write_split_header(header: list[str], output_header_file: pathlib.Path) ->
     # * Write macro file.
     macro_file = output_header_file.with_suffix("") / "macro.h"
     macro_file.parent.mkdir(parents=True, exist_ok=True)
-    macro_file_text = "#pragma once" + os.linesep + header[0]
+    macro_file_text = (
+        "/** @file */" + os.linesep + "#pragma once" + os.linesep + header[0]
+    )
     __write_if_needed(macro_file_text, macro_file)
 
     # * Write C++ wrapper file.
@@ -28,7 +30,9 @@ def __write_split_header(header: list[str], output_header_file: pathlib.Path) ->
         output_header_file.resolve(), cpp_def_file.parent.resolve()
     )
     cpp_def_text = (
-        "#pragma once"
+        "/** @file */"
+        + os.linesep
+        + "#pragma once"
         + os.linesep
         + f'#include "{include_main_from_impl}"'
         + os.linesep
@@ -45,7 +49,9 @@ def __write_split_header(header: list[str], output_header_file: pathlib.Path) ->
     )
 
     out = (
-        f"#pragma once"
+        "/** @file */"
+        + os.linesep
+        + "#pragma once"
         + os.linesep
         + f'#include "{include_macro_from_main}"'
         + os.linesep
@@ -63,7 +69,9 @@ def __write_split_header(header: list[str], output_header_file: pathlib.Path) ->
 
 def __write_combined_header(header: list[str], output_file: pathlib.Path) -> None:
     out = (
-        f"#pragma once"
+        "/** @file */"
+        + os.linesep
+        + f"#pragma once"
         + os.linesep
         + header[0]
         + os.linesep
