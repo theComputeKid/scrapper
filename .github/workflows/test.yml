@@ -22,16 +22,36 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: pip install -r requirements.txt
-      - name: Build project
-        run: cd test && cmake --workflow --preset default
+      - name: Build default
+        run: |
+          cd test
+          cmake --workflow --preset default
+      - name: Remove output folder
+        uses: JesseTG/rm@v1.0.3
+        with:
+          path: out
+      - name: Build split
+        run: |
+          cd test
+          cmake --workflow --preset split
 
   macos:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
       - run: pip install -r requirements.txt
-      - name: Build project
-        run: cd test && cmake --workflow --preset default
+      - name: Build default
+        run: |
+          cd test
+          cmake --workflow --preset default
+      - name: Remove output folder
+        uses: JesseTG/rm@v1.0.3
+        with:
+          path: out
+      - name: Build split
+        run: |
+          cd test
+          cmake --workflow --preset split
 
   windows:
     runs-on: windows-latest
@@ -44,5 +64,15 @@ jobs:
         with:
           cmakeVersion: latest
       - run: pip install -r requirements.txt
-      - name: Build project
-        run: cd test && cmake --workflow --preset default
+      - name: Build default
+        run: |
+          cd test
+          cmake --workflow --preset default
+      - name: Remove output folder
+        uses: JesseTG/rm@v1.0.3
+        with:
+          path: out
+      - name: Build split
+        run: |
+          cd test
+          cmake --workflow --preset split

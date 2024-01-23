@@ -212,5 +212,6 @@ The project can be built using cmake presets (for cmake >= 3.28):
 ```
 cd test
 cmake --workflow --preset default
+cmake --workflow --preset split
 ```
 For older versions of cmake, you will need to configure manually (you can use the presets.json as a guide).
