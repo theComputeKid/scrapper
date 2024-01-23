@@ -11,9 +11,13 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 project(scrapper-demo C CXX)
 
 # * Generate the headers.
+if(CRAPPER_SPLIT)
+	set(CRAPPER_SPLIT_FLAG -s)
+endif()
+
 add_custom_target(
 	run-scrapper ALL
-	COMMAND python3 scrapper.py test/add.json -oh test/out/exported-interface.h -oi test/out/internal-impl.hpp
+	COMMAND python3 scrapper.py test/add.json -oh test/out/exported-interface.h -oi test/out/internal-impl.hpp ${CRAPPER_SPLIT_FLAG}
 	COMMENT "Running scrapper."
 	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/..
 )

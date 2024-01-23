@@ -12,6 +12,16 @@
       "environment": {
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
       }
+    },
+    {
+      "name": "split",
+      "binaryDir": "${sourceDir}/out/build-split",
+      "cacheVariables": {
+        "CRAPPER_SPLIT": "ON"
+      },
+      "environment": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -19,12 +29,32 @@
       "name": "default",
       "configurePreset": "default",
       "configuration": "Release"
+    },
+    {
+      "name": "split",
+      "configurePreset": "split",
+      "configuration": "Release"
     }
   ],
   "testPresets": [
     {
       "name": "default",
       "configurePreset": "default",
+      "configuration": "Release",
+      "output": {
+        "outputOnFailure": true,
+        "shortProgress": true,
+        "labelSummary": true,
+        "verbosity": "default"
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": false
+      }
+    },
+    {
+      "name": "split",
+      "configurePreset": "split",
       "configuration": "Release",
       "output": {
         "outputOnFailure": true,
@@ -53,6 +83,23 @@
         {
           "type": "test",
           "name": "default"
+        }
+      ]
+    },
+    {
+      "name": "split",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "split"
+        },
+        {
+          "type": "build",
+          "name": "split"
+        },
+        {
+          "type": "test",
+          "name": "split"
         }
       ]
     }
