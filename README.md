@@ -189,6 +189,7 @@ The supplied JSON must have:
 
 The `"functions"` field is divided into:
 - `"name"`: Name of the C++ function to be exported. This is also the base name that the generated functions will use.
+- `"description"`: Optional. Generate doxygen comments (also per parameter).
 - `"combination"`: Defines the combination of templates to create wrappers for.
   - `"all"`: All combinations of supplied types (cartesian product)
   - `"fixed"`: Linear combination of types. i.e. `template[0]type[0]` with `template[1]type[0]`, `template[0]type[1]` with `template[1]type[1]`.

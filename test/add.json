@@ -8,6 +8,7 @@
 		{
 			"name": "add",
 			"combination": "all",
+			"description": "Adds two numbers.",
 			"templates": [
 				{
 					"name": "S",
@@ -29,19 +30,22 @@
 					"name": "left",
 					"type": "S",
 					"const": false,
-					"pointer": false
+					"pointer": false,
+					"description": "Left argument to add."
 				},
 				{
 					"name": "right",
 					"type": "T",
 					"const": false,
-					"pointer": false
+					"pointer": false,
+					"description": "Right argument to add."
 				}
 			],
 			"return": {
 				"type": "T",
 				"const": false,
-				"pointer": false
+				"pointer": false,
+				"description": "Result of the addition."
 			}
 		}
 	]

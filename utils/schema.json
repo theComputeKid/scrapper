@@ -63,6 +63,15 @@
                                 },
                                 "type": {
                                     "type": "string"
+                                },
+                                "const": {
+                                    "type": "boolean"
+                                },
+                                "pointer": {
+                                    "type": "boolean"
+                                },
+                                "description": {
+                                    "type": "string"
                                 }
                             },
                             "required": [

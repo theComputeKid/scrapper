@@ -1,3 +1,6 @@
+import os
+
+
 def __get_type(arg: dict) -> str:
     t = arg["type"]
     if arg["const"]:
@@ -7,7 +10,25 @@ def __get_type(arg: dict) -> str:
     return t
 
 
-def get_function_signature_cpp(func: dict) -> str:
+def __get_doxygen(func: dict) -> str:
+    out = ""
+
+    if "description" in func:
+        out += "* @brief " + func["description"] + os.linesep
+
+    for p in func["parameters"]:
+        if "description" in p:
+            out += f'* @param {p["name"]} {p["description"]}' + os.linesep
+
+    if "description" in func["return"]:
+        out += f'* @return {func["return"]["description"]}' + os.linesep
+
+    if out:
+        out = "/**" + os.linesep + out + "**/" + os.linesep
+    return out
+
+
+def get_function_signature_cpp(func: dict, doxygen=False) -> str:
     """Generates a C function signature.
 
     The configuration is read from a "function" object obtained from the validated config JSON file.
@@ -21,7 +42,10 @@ def get_function_signature_cpp(func: dict) -> str:
         Templates used in the C++ function for which this wrapper is being generated for.
         E.g.: {"T1": "float", "T2": "double"}
     """
-    decl = "template <"
+    decl = ""
+    if doxygen:
+        decl += __get_doxygen(func)
+    decl += "template <"
     for template in func["templates"]:
         decl += f'typename {template["name"]}'
         decl += ", "
