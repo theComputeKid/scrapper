@@ -24,27 +24,37 @@ def __write_split_header(header: list[str], output_header_file: pathlib.Path) ->
 
     # * Write C++ wrapper file.
     cpp_def_file = output_header_file.with_suffix("") / "impl.hpp"
-    cpp_def_text = "#pragma once" + os.linesep + header[3]
+    include_main_from_impl = os.path.relpath(
+        output_header_file.resolve(), cpp_def_file.parent.resolve()
+    )
+    cpp_def_text = (
+        "#pragma once"
+        + os.linesep
+        + f'#include "{include_main_from_impl}"'
+        + os.linesep
+        + header[3]
+    )
     __write_if_needed(cpp_def_text, cpp_def_file)
 
     # * Write main header file.
-    inc_macro = os.path.relpath(
+    include_macro_from_main = os.path.relpath(
         macro_file.resolve(), output_header_file.parent.resolve()
     )
-    inc_impl = os.path.relpath(
+    include_impl_from_main = os.path.relpath(
         cpp_def_file.resolve(), output_header_file.parent.resolve()
     )
+
     out = (
         f"#pragma once"
         + os.linesep
-        + f'#include "{inc_macro}"'
+        + f'#include "{include_macro_from_main}"'
         + os.linesep
         + os.linesep
         + header[1]
         + "#ifdef __cplusplus"
         + os.linesep
         + header[2]
-        + f'#include "{inc_impl}"'
+        + f'#include "{include_impl_from_main}"'
         + os.linesep
         + "#endif"
     )
