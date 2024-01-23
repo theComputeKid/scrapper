@@ -48,7 +48,7 @@ def get_type_suffix(types: list[str], mapping: dict[str, str]) -> str:
     suffix = ""
     for t in types:
         if t in mapping:
-            suffix += mapping[t]
+            suffix += mapping[t] + "_"
         else:
-            suffix += t
-    return suffix
+            suffix += t + "_"
+    return suffix[:-1]

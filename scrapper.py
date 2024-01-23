@@ -1,6 +1,71 @@
 #!/usr/bin/env python3
-import argparse, pathlib, json
+import argparse, pathlib, json, os
 import utils
+
+
+def __write_if_needed(text: str, output: pathlib.Path) -> None:
+    new = text.encode()
+    if output.is_file():
+        old = output.read_bytes()
+        if old != new:
+            print(f"Updating file: {output}")
+            output.write_bytes(new)
+    else:
+        print(f"Writing file: {output}")
+        output.write_bytes(new)
+
+
+def __write_split_header(header: list[str], output_header_file: pathlib.Path) -> None:
+    # * Write macro file.
+    macro_file = output_header_file.with_suffix("") / "macro.h"
+    macro_file.parent.mkdir(parents=True, exist_ok=True)
+    macro_file_text = "#pragma once" + os.linesep + header[0]
+    __write_if_needed(macro_file_text, macro_file)
+
+    # * Write C++ wrapper file.
+    cpp_def_file = output_header_file.with_suffix("") / "impl.hpp"
+    cpp_def_text = "#pragma once" + os.linesep + header[3]
+    __write_if_needed(cpp_def_text, cpp_def_file)
+
+    # * Write main header file.
+    inc_macro = os.path.relpath(
+        macro_file.resolve(), output_header_file.parent.resolve()
+    )
+    inc_impl = os.path.relpath(
+        cpp_def_file.resolve(), output_header_file.parent.resolve()
+    )
+    out = (
+        f"#pragma once"
+        + os.linesep
+        + f'#include "{inc_macro}"'
+        + os.linesep
+        + os.linesep
+        + header[1]
+        + "#ifdef __cplusplus"
+        + os.linesep
+        + header[2]
+        + f'#include "{inc_impl}"'
+        + os.linesep
+        + "#endif"
+    )
+    __write_if_needed(out, output_header_file)
+
+
+def __write_combined_header(header: list[str], output_file: pathlib.Path) -> None:
+    out = (
+        f"#pragma once"
+        + os.linesep
+        + header[0]
+        + os.linesep
+        + header[1]
+        + "#ifdef __cplusplus"
+        + os.linesep
+        + header[2]
+        + os.linesep
+        + header[3]
+        + "#endif"
+    )
+    __write_if_needed(out, output_file)
 
 
 def __extract_JSON(input_json: pathlib.Path) -> dict:
@@ -23,6 +88,7 @@ def get_export_header(input_json: pathlib.Path) -> str:
 
 def exec(
     input_json: pathlib.Path,
+    separate_header: bool,
     output_header_file: pathlib.Path,
     output_impl_file: pathlib.Path,
 ) -> None:
@@ -43,7 +109,11 @@ def exec(
     """
     output_header_file_text = get_export_header(input_json)
     output_header_file.parent.mkdir(parents=True, exist_ok=True)
-    output_header_file.write_bytes(output_header_file_text.encode())
+
+    if separate_header:
+        __write_split_header(output_header_file_text, output_header_file)
+    else:
+        __write_combined_header(output_header_file_text, output_header_file)
 
     implementation_file_text = get_impl(input_json)
     output_impl_file.parent.mkdir(parents=True, exist_ok=True)
@@ -68,6 +138,12 @@ if __name__ == "__main__":
         help="Path to the output header file.",
     )
     parser.add_argument(
+        "-s",
+        "--separate-header",
+        action="store_true",
+        help="Seperate the exported header into its interface and implementation",
+    )
+    parser.add_argument(
         "-oi",
         "--output-impl",
         nargs=1,
@@ -78,4 +154,4 @@ if __name__ == "__main__":
     input_json = pathlib.Path(args.input[0]).resolve()
     output_header_file = pathlib.Path(args.output_header[0]).resolve()
     output_impl_file = pathlib.Path(args.output_impl[0]).resolve()
-    exec(input_json, output_header_file, output_impl_file)
+    exec(input_json, args.separate_header, output_header_file, output_impl_file)
