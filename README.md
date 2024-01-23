@@ -8,7 +8,7 @@
 
 ## Summary
 
-This project partially solves the problem of exporting C++ functions with a C ABI:
+This project pretends to export C++ functions with a C ABI:
 
 1. It wraps C++ functions inside wrapper functions with a C signature.
 2. It then exports those wrapper functions with a C ABI.
@@ -44,7 +44,7 @@ double add_f64(double left, double right){
 }
 ```
 
-This wrapper is included in the file that implements the C++ functionality:
+This wrapper is included in the file that implements the C++ functionality (written by the library author):
 
 ```
 #include "my_generated_wrapper.hpp"
