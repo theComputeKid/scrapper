@@ -29,15 +29,14 @@ def __get_linkage_macro_header(macro: str) -> str:
 
 
 def __get_export_header_cpp_signatures(config: dict) -> str:
-    out = f"#ifdef __cplusplus" + os.linesep
+    out = ""
     for f in config["functions"]:
         out += utils.get_function_signature_cpp(f) + ";" + os.linesep
-    out += f"#endif"
     return out
 
 
 def __get_export_header_macros(config: dict) -> str:
-    out = utils.get_includes(config) + os.linesep + os.linesep
+    out = utils.get_includes(config) + os.linesep
     out += __get_linkage_macro_header(config["linkage-macro"])
     return out
 
@@ -55,22 +54,19 @@ def __get_export_header_c_signatures(config: dict) -> str:
 
 
 def __get_export_header_cpp_definitions(config: dict) -> str:
-    out = "// C++ wrapper impl." + os.linesep
-    out += "#ifdef __cplusplus" + os.linesep
-    out += "#include <type_traits>" + os.linesep + os.linesep
+    out = "#include <type_traits>" + os.linesep + os.linesep
     for f in config["functions"]:
         out += (
             utils.get_export_header_cpp_definition(f, config["suffix-mapping"])
             + os.linesep
             + os.linesep
         )
-    out += f"#endif"
     return out
 
 
-def get_export_header(config: dict) -> str:
-    out = __get_export_header_macros(config) + os.linesep + os.linesep
-    out += __get_export_header_cpp_signatures(config) + os.linesep + os.linesep
-    out += __get_export_header_c_signatures(config)
-    out += __get_export_header_cpp_definitions(config)
-    return out
+def get_export_header(config: dict) -> tuple[str, str, str, str]:
+    macros = __get_export_header_macros(config) + os.linesep
+    cpp_sig = __get_export_header_cpp_signatures(config)
+    c_sig = __get_export_header_c_signatures(config)
+    cpp_def = __get_export_header_cpp_definitions(config)
+    return macros, c_sig, cpp_sig, cpp_def

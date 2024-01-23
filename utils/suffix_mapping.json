@@ -20,5 +20,7 @@
 	"uint64_t _Complex": "cui64",
 	"half _Complex": "cf16",
 	"float _Complex": "cf32",
-	"double _Complex": "cf64"
+	"double _Complex": "cf64",
+	"_Fcomplex": "cf32",
+	"_Dcomplex": "cf64"
 }
