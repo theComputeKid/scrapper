@@ -31,7 +31,7 @@ def __get_linkage_macro_header(macro: str) -> str:
 def __get_export_header_cpp_signatures(config: dict) -> str:
     out = ""
     for f in config["functions"]:
-        out += utils.get_function_signature_cpp(f) + ";" + os.linesep
+        out += utils.get_function_signature_cpp(f, True) + ";" + os.linesep
     return out
 
 

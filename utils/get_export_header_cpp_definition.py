@@ -18,7 +18,7 @@ def get_export_header_cpp_definition(func: dict, mapping: dict[str, str]) -> str
     type_combos = utils.get_template_combinations(
         func["templates"], func["combination"]
     )
-    out = utils.get_function_signature_cpp(func) + "{" + os.linesep
+    out = utils.get_function_signature_cpp(func, False) + "{" + os.linesep
     for t in type_combos:
         out += __get_branch(func, t, mapping)
         out += os.linesep + "else "
