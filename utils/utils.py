@@ -33,11 +33,11 @@ def get_includes(config: dict) -> str:
 
 def get_type_suffix_list(config: dict) -> str:
     user_list = {}
-    if "suffix-mapping" in config:
-        user_list = config["suffix-mapping"]
+    if "mapping" in config:
+        user_list = config["mapping"]
 
     my_current_directory = pathlib.Path(__file__).parents[1].resolve()
-    json_file = my_current_directory / "utils" / "suffix_mapping.json"
+    json_file = my_current_directory / "utils" / "mapping.json"
     json_file_text = json.loads(json_file.read_text())
 
     out = json_file_text | user_list
@@ -52,3 +52,10 @@ def get_type_suffix(types: list[str], mapping: dict[str, str]) -> str:
         else:
             suffix += t + "_"
     return suffix[:-1]
+
+
+def get_macro(config: dict) -> str:
+    if "macro" in config:
+        return config["macro"]
+    else:
+        return "SCRAPPER"

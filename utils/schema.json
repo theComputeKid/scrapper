@@ -11,10 +11,10 @@
                 "type": "string"
             }
         },
-        "linkage-macro": {
+        "macro": {
             "type": "string"
         },
-        "suffix-mapping": {
+        "mapping": {
             "type": "object"
         },
         "functions": {
@@ -94,7 +94,6 @@
     },
     "required": [
         "$schema",
-        "linkage-macro",
         "functions"
     ]
 }

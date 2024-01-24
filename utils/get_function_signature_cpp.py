@@ -24,7 +24,7 @@ def __get_doxygen(func: dict) -> str:
         out += f'* @return {func["return"]["description"]}' + os.linesep
 
     if out:
-        out = "/**" + os.linesep + out + "**/" + os.linesep
+        out = "/**" + os.linesep + out + "*/" + os.linesep
     return out
 
 

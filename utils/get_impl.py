@@ -6,7 +6,8 @@ def __get_link_macro(macro: str) -> str:
     return macro + "_EXPORT"
 
 
-def __get_linkage_macro_header(macro: str) -> str:
+def __get_linkage_macro_header(config: dict) -> str:
+    macro = utils.get_macro(config)
     link_macro = __get_link_macro(macro)
 
     # Assign import/export macros for windows
@@ -37,10 +38,11 @@ def __get_impl_cpp_call(func: dict) -> str:
 
 def __get_impl_c_definitions(config: dict, mapping: dict[str, str]) -> str:
     out = ""
+    macro = utils.get_macro(config)
     for f in config["functions"]:
         type_combos = utils.get_template_combinations(f["templates"], f["combination"])
         for t in type_combos:
-            out += __get_link_macro(config["linkage-macro"]) + " "
+            out += __get_link_macro(macro) + " "
             out += utils.get_function_signature_c(f, t, mapping) + "{" + os.linesep
             out += __get_impl_cpp_call(f)
             out += os.linesep + "}" + os.linesep + os.linesep
@@ -51,7 +53,7 @@ def __get_impl_c_definitions(config: dict, mapping: dict[str, str]) -> str:
 def get_impl(config: dict) -> str:
     suffixes = utils.get_type_suffix_list(config)
     out = utils.get_includes(config) + os.linesep + os.linesep
-    out += __get_linkage_macro_header(config["linkage-macro"]) + os.linesep + os.linesep
+    out += __get_linkage_macro_header(config) + os.linesep + os.linesep
     out += __get_impl_cpp_signatures(config) + os.linesep
     out += __get_impl_c_definitions(config, suffixes)
     return out
