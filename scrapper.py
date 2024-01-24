@@ -74,6 +74,11 @@ def __extract_JSON(input_json: pathlib.Path) -> dict:
     utils.validate_schema(config)
     suffixes = utils.get_type_suffix_list(config)
     config["mapping"] = suffixes
+
+    for f in config["functions"]:
+        if not "combination" in f:
+            f["combination"] = "all"
+
     return config
 
 
