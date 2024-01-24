@@ -275,7 +275,7 @@ where:
 - `--output-implementation`, `-oi`: The implementation of the C functions, to be compiled as part of the library. Equivalent to `wrapper.h` in the example.
 - `--separate-header`, `-s`: Split the export header into a cleaner interface as shown in the example with `exportImpl.hpp`. The program will automatically create this extra implementation file in the same directory as the `--output-header`.
 
-Additional customization is welcome via pull requests.
+The `simple` example contains the minimum JSON config required for the program to work and is a good starting point. Additional customization is welcome via pull requests.
 
 ## JSON schema
 
@@ -345,8 +345,8 @@ The supplied JSON must have:
 The `"functions"` field is divided into:
 - `"name"`: Name of the C++ function to be exported. This is also the base name that the generated functions will use.
 - `"description"`: Optional. Generate doxygen comments (also per parameter).
-- `"combination"`: Defines the combination of templates to create wrappers for.
-  - `"all"`: All combinations of supplied types (cartesian product)
+- `"combination"`: Optional. Defines the combination of templates to create wrappers for, when more than one is provided.
+  - `"all"`: Default. All combinations of supplied types (cartesian product)
   - `"fixed"`: Linear combination of types. i.e. `template[0]type[0]` with `template[1]type[0]`, `template[0]type[1]` with `template[1]type[1]`.
 - `"templates"`: An array of templates that the C++ function accepts.
 
