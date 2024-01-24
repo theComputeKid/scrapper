@@ -76,6 +76,9 @@ double add_f64(double left, double right);
 #ifdef __cplusplus
 
 template <typename T>
+T add(T left, T right);
+
+template <typename T>
 T add(T left, T right){
 	if constexpr (std::is_same_v<T, float>){
 		return add_f32(left, right);
@@ -216,3 +219,11 @@ cmake --workflow --preset default
 cmake --workflow --preset split
 ```
 For older versions of cmake, you will need to configure manually (you can use the presets.json as a guide).
+
+## Dependencies
+
+Dependencies are listed in `requirements.txt`, and can be installed with:
+
+```
+pip install -r requirements.txt
+```
