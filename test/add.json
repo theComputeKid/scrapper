@@ -1,6 +1,5 @@
 {
 	"$schema": "https://raw.githubusercontent.com/theComputeKid/scrapper/main/utils/schema.json",
-	"linkage-macro": "SCRAPPER",
 	"includes": [
 		"<stdint.h>"
 	],

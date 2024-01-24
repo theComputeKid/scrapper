@@ -15,9 +15,15 @@ if(CRAPPER_SPLIT)
 	set(CRAPPER_SPLIT_FLAG -s)
 endif()
 
+if(NOT Python3_ROOT_DIR)
+	set(Python3_ROOT_DIR "../*" CACHE STRING "" FORCE)
+endif()
+
+find_package(Python3 COMPONENTS Interpreter REQUIRED)
+
 add_custom_target(
 	run-scrapper ALL
-	COMMAND python3 scrapper.py test/add.json -oh test/out/exported-interface.h -oi test/out/internal-impl.hpp ${CRAPPER_SPLIT_FLAG}
+	COMMAND ${Python3_EXECUTABLE} scrapper.py test/add.json -oh test/out/exported-interface.h -oi test/out/internal-impl.hpp ${CRAPPER_SPLIT_FLAG}
 	COMMENT "Running scrapper."
 	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/..
 )

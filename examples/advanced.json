@@ -3,8 +3,8 @@
     "includes": [
         "<stdint.h>"
     ],
-    "linkage-macro": "MY_ADVANCED_PROJECT",
-    "suffix-mapping": {
+    "macro": "PROJECT",
+    "mapping": {
         "float": "fp32",
         "float _Complex": "cfp32"
     },

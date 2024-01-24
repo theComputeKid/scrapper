@@ -16,51 +16,34 @@ def __write_if_needed(text: str, output: pathlib.Path) -> None:
 
 
 def __write_split_header(header: list[str], output_header_file: pathlib.Path) -> None:
-    # * Write macro file.
-    macro_file = output_header_file.with_suffix("") / "macro.h"
-    macro_file.parent.mkdir(parents=True, exist_ok=True)
-    macro_file_text = (
-        "/** @file */" + os.linesep + "#pragma once" + os.linesep + header[0]
-    )
-    __write_if_needed(macro_file_text, macro_file)
-
     # * Write C++ wrapper file.
-    cpp_def_file = output_header_file.with_suffix("") / "impl.hpp"
-    include_main_from_impl = os.path.relpath(
-        output_header_file.resolve(), cpp_def_file.parent.resolve()
-    )
+    cpp_def_file = output_header_file.stem + "Impl.hpp"
+    cpp_def_file_path = output_header_file.parent / cpp_def_file
+
     cpp_def_text = (
         "/** @file */"
         + os.linesep
         + "#pragma once"
         + os.linesep
-        + f'#include "{include_main_from_impl}"'
+        + f'#include "{output_header_file.name}"'
         + os.linesep
         + header[3]
     )
-    __write_if_needed(cpp_def_text, cpp_def_file)
+    __write_if_needed(cpp_def_text, cpp_def_file_path)
 
     # * Write main header file.
-    include_macro_from_main = os.path.relpath(
-        macro_file.resolve(), output_header_file.parent.resolve()
-    )
-    include_impl_from_main = os.path.relpath(
-        cpp_def_file.resolve(), output_header_file.parent.resolve()
-    )
-
     out = (
         "/** @file */"
         + os.linesep
         + "#pragma once"
         + os.linesep
-        + f'#include "{include_macro_from_main}"'
-        + os.linesep
+        + header[0]
         + os.linesep
         + header[1]
         + "#ifdef __cplusplus"
         + os.linesep
         + header[2]
-        + f'#include "{include_impl_from_main}"'
+        + f'#include "{cpp_def_file}"'
         + os.linesep
         + "#endif"
     )
@@ -90,7 +73,7 @@ def __extract_JSON(input_json: pathlib.Path) -> dict:
     config = json.loads(input_json.read_text())
     utils.validate_schema(config)
     suffixes = utils.get_type_suffix_list(config)
-    config["suffix-mapping"] = suffixes
+    config["mapping"] = suffixes
     return config
 
 
