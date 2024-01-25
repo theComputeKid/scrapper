@@ -1,6 +1,6 @@
 <div align="center">
 	<h1><strong>scrapper</strong></h1>
-	<p>pretends to export c++ functions with a c interface</p>
+	<p>pretends to export c++ functions with a c abi</p>
     <img alt="GitHub License" src="https://img.shields.io/github/license/thecomputekid/scrapper?style=for-the-badge&color=blue">
     <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/theComputeKid/scrapper/test.yml?style=for-the-badge">
 	<img alt="Lines of Code" src="https://tokei.rs/b1/github/thecomputekid/scrapper?category=code&style=for-the-badge">
@@ -8,9 +8,9 @@
 
 ## Summary
 
-This project pretends to export your library's C++ functions with a C ABI so that the end user can benefit from a clean C++ interface to your library's functionality, while also benefitting from a stable C ABI (e.g. with no name mangling etc).
+This project pretends to export your shared library's C++ functions with a C ABI so that the end user can benefit from a clean C++ interface to your library's functionality, while also benefitting from a stable C ABI (e.g. with no name mangling etc).
 
-For example, if our library contains the following functionality that is to be made available to the user:
+For example, if our shared library contains the following functionality that is to be made available to the user:
 
 ```
 template <typename T>
@@ -113,7 +113,7 @@ SCRAPPER_EXPORT double add_f64(double left, double right){
 }
 ```
 
-At this point, a limitation of the project becomes obvious; the C++ functions can only have C-friendly arguments, as otherwise they cannot be exported with the C ABI. This step happens at the same time as the previous one but is separated here for demonstration (i.e. the generated `wrapper.hpp` will already contain the C wrappers as well the export decorators).
+At this point, a limitation of the project becomes obvious; the C++ functions can only have C-friendly arguments, as otherwise they cannot be exported with the C ABI.
 
 An export header is generated (with the corresponding OS-specific symbol import macros) to allow the user to call these functions exported with the C ABI:
 
@@ -180,7 +180,7 @@ template <typename T> T add(T left, T right){
 #endif
 ```
 
-The declaration of the C++ wrapper function is kept separate to the implementation so the user-facing interface is clean. Having the implementation at the bottom allows the user to not care about the bottom half of the exported interface. Because the implementation is `constexpr` (and inline), there is no user runtime cost for the switchyard contained within it.
+The declaration of the C++ wrapper function is kept separate to the implementation (an opinionated decision) so the user-facing interface is clean. Having the implementation at the bottom allows the user to not care about the bottom half of the exported interface. Because the implementation is `constexpr` (and inline), there is no user runtime cost for the switchyard contained within it.
 
 The program can also provide an even cleaner interface, if requested. It can generate a separate implementation file that is automatically included in the main export header:
 
