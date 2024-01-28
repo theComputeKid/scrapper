@@ -10,20 +10,25 @@ def __get_linkage_macro_header(macro: str) -> str:
     extern_c_macro = macro + "_EXTERN_C"
     link_macro = __get_import_macro(macro)
 
+    out = f"#ifndef {link_macro}" + os.linesep
+
     # ifdef C++
-    out = f"#ifdef __cplusplus" + os.linesep
-    out += f'#\tdefine {extern_c_macro} extern "C"' + os.linesep
-    out += f"#else" + os.linesep
-    out += f"#\tdefine {extern_c_macro}" + os.linesep
-    out += f"#endif" + os.linesep + os.linesep
+    out += f"#\tifdef __cplusplus" + os.linesep
+    out += f'#\t\tdefine {extern_c_macro} extern "C"' + os.linesep
+    out += f"#\telse" + os.linesep
+    out += f"#\t\tdefine {extern_c_macro}" + os.linesep
+    out += f"#\tendif" + os.linesep + os.linesep
 
     # Assign import/export macros for windows
-    out += f"#ifdef _WIN32" + os.linesep
-    out += f"#\tdefine {link_macro} {extern_c_macro} __declspec(dllimport)" + os.linesep
+    out += f"#\tifdef _WIN32" + os.linesep
+    out += (
+        f"#\t\tdefine {link_macro} {extern_c_macro} __declspec(dllimport)" + os.linesep
+    )
 
     # Assign import/export macros for unix
-    out += f"#else" + os.linesep
-    out += f"#\tdefine {link_macro} {extern_c_macro}" + os.linesep
+    out += f"#\telse" + os.linesep
+    out += f"#\t\tdefine {link_macro} {extern_c_macro}" + os.linesep
+    out += f"#\tendif" + os.linesep
     out += f"#endif"
     return out
 
