@@ -123,7 +123,7 @@ def exec(
 
     implementation_file_text = get_impl(input_json)
     output_impl_file.parent.mkdir(parents=True, exist_ok=True)
-    output_impl_file.write_bytes(implementation_file_text.encode())
+    __write_if_needed(implementation_file_text, output_impl_file)
 
 
 if __name__ == "__main__":
